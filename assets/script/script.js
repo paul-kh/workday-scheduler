@@ -1,0 +1,86 @@
+// Get current date and time
+const day = new Date();
+const dayWrapper = moment(day);
+const currentHour = dayWrapper.hours();
+const currentDay = dayWrapper.format('MM-DD-YYYY');
+console.log("Current Date: ", dayWrapper.format('LLLL')); // current date with long format
+console.log("Current Day MM-DD-YY: ", dayWrapper.format('MM-DD-YYYY'));
+console.log("Today's current hour: ", dayWrapper.hours()); // current hours
+console.log("Today 11pm: ", moment(23, 'HH').format()); // today 9am
+
+// Display current date in jumbotron
+// --------------------------------------------------------------------------
+document.getElementById("currentDay").innerHTML = dayWrapper.format('LLLL');
+//--------------------------------------------------------------------------
+
+// Declare variables for getting background color changed dynamically upon the current time
+let hourStr = ""; // event time as string to get from innerHTML  which contain "AM" or "PM"
+let hour = 0; // event time as number converted from hourStr
+const hourEls = document.querySelectorAll(".hour");
+const eventEls = document.querySelectorAll(".col-8");
+
+
+
+// CHANGE BACKGROUND COLOR UPON THE CURRENT TIME
+//---------------------------------------------------------------------------
+// - Loop through hourELs and eventEls
+for (let i = 0; i < hourEls.length; i++) {
+    hourStr = hourEls[i].innerHTML;
+    // if hourStr is 3 characters and if the last 2 character is "AM",
+    // then take the first character, convert to number, and assign to 'hour'
+    if (hourStr.length === 3 && hourStr.substring(1, 3) === "AM") {
+        hourStr = hourStr.substring(0, 1);
+        hour = parseInt(hourStr);
+        // console.log(hour);
+    }
+    // if hourStr is 3 characters and if the last 2 character is "PM",
+    // then take the first character, convert to number, add 12 to be 24hrs based, and assign to 'hour'
+    if (hourStr.length === 3 && hourStr.substring(1, 3) === "PM") {
+        hourStr = hourStr.substring(0, 1);
+        hour = parseInt(hourStr) + 12;
+        // console.log(hour);
+    }
+    // if hourStr is 4 characters and if the last 2 character is "AM" and not "12PM",
+    // then take the first 2 characters, convert to number, and assign to 'hour'
+    if (hourStr.length === 4 && hourStr.substring(2, 4) === "AM" && hourStr != "12PM") {
+        hourStr = hourStr.substring(0, 2);
+        hour = parseInt(hourStr);
+        // console.log(hour);
+    }
+    // if hourStr is 4 characters and if the last 2 character is "PM" and not "12PM",
+    // then take the first 2 characters, convert to number, add 12 to be 24hrs based, and assign to 'hour'
+    if (hourStr.length === 4 && hourStr.substring(2, 4) === "PM" && hourStr != "12PM") {
+        hourStr = hourStr.substring(0, 2);
+        hour = parseInt(hourStr) + 12;
+        // console.log(hour);
+    }
+    // if hourStr is 4 characters and if the last 2 character is "PM" and is "12PM",
+    // then take the first 2 characters and assign to 'hour'
+    if (hourStr === "12PM") {
+        hour = 12;
+        // console.log(hour);
+    }
+
+    // apply background color of evenEls
+    // - compare event hour and current hour 
+    if (hour < currentHour) {
+        eventEls[i].setAttribute("class", "col-8 p-0 past");
+    } else if (hour === currentHour) {
+        eventEls[i].setAttribute("class", "col-8 p-0 present");
+        console.log("current hour", currentHour);
+        console.log("event hour", hour);
+    } else if (hour > currentHour) {
+        eventEls[i].setAttribute("class", "col-8 p-0 future");
+    }
+}
+
+// Save to localstorage
+// --------------------------------------------------------------------
+// - Add click event to all Save buttons
+// - Save the array to LocalStorage
+// *** RETRIEVE SAVED DATA
+// - Check if array exists, if not then create empty array:
+// - Compary each object in the array if the key saved (date + time) === current date + time of each event hour
+
+
+
