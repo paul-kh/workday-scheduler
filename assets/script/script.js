@@ -93,16 +93,13 @@ console.log(array1);
 for (let i = 0; i < array1.length; i++) {
     console.log(array1[i].button);
     array1[i].button.addEventListener("click", function () {
-        if (array1[i].eventTextEl.value === "") {
-            alert("nothing");
-        } else {
+        
             // save to localstorage
             const dataStr = localStorage.getItem("event") || "[]";
             const eventData = JSON.parse(dataStr);
             eventData.push({ date: currentDay, time: array1[i].hour, content: array1[i].eventTextEl.value });
             localStorage.setItem("event", JSON.stringify(eventData));
-            // console.log(eventData);
-        }
+  
     });
 }
 
